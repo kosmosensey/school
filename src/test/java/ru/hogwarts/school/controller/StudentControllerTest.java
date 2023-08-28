@@ -1,13 +1,14 @@
 package ru.hogwarts.school.controller;
 
 import org.assertj.core.api.AssertionsForClassTypes;
+import org.h2.util.TempFileDeleter;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 
 import java.util.Collection;
@@ -21,6 +22,16 @@ public class StudentControllerTest {
 
     @Autowired
     private TestRestTemplate template;
+    @Autowired
+    private TempFileDeleter studentRepository;
+    @Autowired
+    private TempFileDeleter facultyRepository;
+
+    @AfterEach
+    void clearBD() {
+        studentRepository.deleteAll();
+        facultyRepository.deleteAll();
+    }
 
 
     @Test
