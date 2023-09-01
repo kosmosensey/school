@@ -1,5 +1,9 @@
 package ru.hogwarts.school.controller;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,11 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.service.AvatarService;
 
-import javax.imageio.stream.FileImageInputStream;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @RestController
@@ -58,5 +59,14 @@ public class AvatarController {
         headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
         headers.setContentLength(avatar.getFileSize());
         return ResponseEntity.status(200).headers(headers).body(data);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Page<Avatar>> getAvatarList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Avatar> avatarPage = avatarService.getAllAvatars(pageable);
+        return ResponseEntity.ok(avatarPage);
     }
 }

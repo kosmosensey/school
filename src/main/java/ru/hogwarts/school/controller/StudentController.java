@@ -34,7 +34,7 @@ public class StudentController {
 
     @PutMapping("/put/{id}")
     public ResponseEntity<Student> addStudent(@RequestBody Student student, @PathVariable Long id) {
-        Student foundStudent = studentService.editStudent(id,student);
+        Student foundStudent = studentService.editStudent(id, student);
         if (foundStudent == null) {
             return ResponseEntity.notFound().build();
         }
@@ -67,5 +67,20 @@ public class StudentController {
             return ResponseEntity.ok(studentService.findByBetween(min, max));
         }
         return ResponseEntity.ok(Collections.emptyList());
+    }
+
+    @GetMapping("/count-all-students")
+    public ResponseEntity<Long> countAllStudents() {
+        return ResponseEntity.ok(studentService.countAllStudents());
+    }
+
+    @GetMapping("/get-average-age")
+    public ResponseEntity<Long> getStudentsAverageAge() {
+        return ResponseEntity.ok(studentService.getStudentsAverageAge());
+    }
+
+    @GetMapping("/last-five-students")
+    public ResponseEntity<Collection<Student>> findLastFiveStudents() {
+        return ResponseEntity.ok(studentService.findLastFiveStudents());
     }
 }

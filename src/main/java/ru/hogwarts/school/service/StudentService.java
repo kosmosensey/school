@@ -30,7 +30,7 @@ public class StudentService {
         return studentRepository.findById(id).get();
     }
 
-    public Student editStudent(Long studentId,Student student) {
+    public Student editStudent(Long studentId, Student student) {
         student.setId(studentId);
         return studentRepository.save(student);
     }
@@ -53,5 +53,17 @@ public class StudentService {
 
     public Collection<Student> findByBetween(int min, int max) {
         return studentRepository.findAllByAgeBetween(min, max);
+    }
+
+    public Long countAllStudents() {
+        return studentRepository.countAllStudents();
+    }
+
+    public Long getStudentsAverageAge() {
+        return studentRepository.getStudentsAverageAge();
+    }
+
+    public Collection<Student> findLastFiveStudents() {
+        return studentRepository.findLastFiveStudents();
     }
 }
